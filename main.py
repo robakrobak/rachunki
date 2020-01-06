@@ -1,5 +1,3 @@
-from MEDIA import woda, gaz, prad
-import window
 import tkinter as tk
 import window
 
