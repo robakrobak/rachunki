@@ -1,11 +1,9 @@
-import tkinter as tk
-import window
+from window import *
 
 
 def main():
-    root = tk.Tk()
-    app = window.Window(root)
-    root.mainloop()
+    rach_window = Window()
+    rach_window.start()
 
 
 if __name__ == "__main__":
