@@ -1,7 +1,5 @@
-import sqlite3
 import tkinter as tk
-from MEDIA import woda, gaz, prad
-from datetime import date, datetime
+import woda
 
 
 # import pandas as pd
@@ -75,7 +73,4 @@ class Window:
         elif media == 'prad':
             prad.Prad.stan_licznikow_prad(self)
 
-# class Wigets(Window):
-#
-#     def button_pressed(self):
-#         tk.Button(self.frame, relief='sunken')
+
