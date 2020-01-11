@@ -1,7 +1,5 @@
 import tkinter as tk
-import woda
-import prad
-import gaz
+
 import choice_panel
 
 
@@ -15,16 +13,7 @@ class Window:
         self.root.wm_title('ROZLICZENIE MEDIÓW - NA STOKU')
         self.root.geometry("1800x1200")
 
-        self.topFrame = tk.Frame(self.root, width=900, height=600)
-        self.topFrame.grid(row=0, column=0, padx=10, pady=2)
-
-        self.botFrame = tk.Frame(self.root, width=900, height=600)
-        self.botFrame.grid(row=1, column=0, padx=10, pady=2)
-
-        self.choicePanel = choice_panel.ChoicePanel(self.root, self.topFrame)
-        self.wodaPanel = woda.Woda(self.root, self.botFrame)
-        # self.pradPanel = prad.Prad(self.root, self.botFrame)
-        # self.gazPanel = gaz.Gaz(self.root, self.botFrame)
+        self.choicePanel = choice_panel.ChoicePanel(self.root)
 
     def start(self):
         self.root.mainloop()
