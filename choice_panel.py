@@ -7,10 +7,10 @@ import gaz
 
 class ChoicePanel:
     def __init__(self, root):
-        self.root = root
 
-        self.frame = tk.Frame(self.root, width=900, height=600)
-        self.frame.grid(row=0, column=0, padx=10, pady=2)
+        self.root = root
+        self.frame = tk.Frame(root, width=900, height=600)
+        self.frame.grid(row='0', column = '0', sticky="nw")
 
         # start media
         self.media_button()
@@ -46,8 +46,7 @@ class ChoicePanel:
     def woda_main_button(self):
         self.button_WODA = tk.Button(self.frame, text='WODAa', width=15, highlightbackground='powderblue',
                                      highlightthickness=2,
-                                     command=lambda: [self.close_all_buttons(), self.media_button(),
-                                                      self.stan_licznikow_rozliczenia('woda')]).grid(row=0, column=1)
+                                     command=lambda: [self.close_all_buttons(), self.media_button()]).grid(row=0, column=1)
 
     def prad_main_button(self):
         self.button_PRAD = tk.Button(self.frame, text='PRADa', width=15, highlightbackground='mistyrose',
