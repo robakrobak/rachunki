@@ -7,11 +7,10 @@ import sqlite3
 
 class Woda:
     def __init__(self, root, frame):
+        self.frame = frame
         self.root = root
-
-
-        self.database_frame = tk.Frame(self.root, width=900, height=600)
-        self.database_frame.grid(row=2, column=0)
+        self.frame2 = tk.Frame(root, width=900, height=600)
+        self.frame2.grid(row='1', column='0', sticky="nw")
 
         self.stan_licznikow = tk.Button(frame, text="STAN LICZNIKOWw", width=15, highlightbackground='powderblue',
                                         highlightthickness=2, command=lambda: self.stan_licznikow_woda()).grid(row=1,
@@ -27,42 +26,16 @@ class Woda:
         self.cursor = self.conn.cursor()
 
     def stan_licznikow_woda(self):
-        # id
-        # INTEGER
-        # PRIMARY
-        # KEY
-        # AUTOINCREMENT,
-        # okres_rozliczeniowy
-        # TEXT,
-        # todays_date
-        # DATE,
-        # dom_woda_licznik
-        # INTEGER,
-        # gora_woda_licznik
-        # INTEGER,
-        # gabinet_woda_licznik
-        # INTEGER,
-        # dom_woda_zuzycie
-        # INTEGER,
-        # gora_woda_zuzycie
-        # INTEGER,
-        # gabinet_woda_zuzycie
-        # INTEGER,
-        # dol_woda_zuzycie
-        # INTEGER)
 
         connection = sqlite3.connect('water.db')
         cursor = connection.execute('select * from water')
         names = [description[0] for description in cursor.description]
         n = 0
         for name in names:
-            name = tk.Label(self.database_frame, text=name, padx=10, pady=10, relief='raised', border='1', borderwidth=1)
+            name = tk.Label(self.frame2, text=name, padx=10, pady=10, relief='raised', border='1',
+                            borderwidth=1)
             name.grid(row=3, column=0 + n, padx=5)
             n += 1
-
-        # self.archiwum = tk.Button(self.database_frame, text="ARCHIWUM", width=15,
-        #                           command=lambda: self.get_all_media_meter())
-        # self.archiwum.grid(row=3, column=0, pady=10)
 
     def get_all_media_meter_ArCHIUM(self):
         list = ['id', 'okres rozliczeniowy', 'dzien dzisiejszy', 'woda licznik dom', 'woda licznik gora',
