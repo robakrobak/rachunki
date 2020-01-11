@@ -1,13 +1,19 @@
 import tkinter as tk
 import woda
+from woda import *
 import prad
 import gaz
 
 
 class ChoicePanel:
-    def __init__(self, root, frame):
+    def __init__(self, root):
         self.root = root
-        self.frame = frame
+
+        self.frame = tk.Frame(self.root, width=900, height=600)
+        self.frame.grid(row=0, column=0, padx=10, pady=2)
+
+        # start media
+        self.media_button()
 
     def close_all_buttons(self):
         for widget in self.frame.winfo_children():
@@ -55,11 +61,10 @@ class ChoicePanel:
                                     command=lambda: [self.close_all_buttons(), self.media_button(),
                                                      self.stan_licznikow_rozliczenia('gaz')]).grid(row=0, column=1)
 
-    def stan_licznikow_rozliczenia(self,
-                                   media):  # media wejdzie do commands: będzie to przeniesienie do pliku woda, prad, lub gaz
-        if media == 'gaz':
-            gaz.Gaz.stan_licznikow_gaz(self)
-        elif media == 'woda':
-            woda.Woda.stan_licznikow_woda(self)
-        elif media == 'prad':
-            prad.Prad.stan_licznikow_prad(self)
+    def stan_licznikow_rozliczenia(self, media_type):
+        if media_type == 'gaz':
+            gaz.Gaz(self.root, self.frame)
+        elif media_type == 'woda':
+            woda.Woda(self.root, self.frame)
+        elif media_type == 'prad':
+            prad.Prad(self.root, self.frame)
