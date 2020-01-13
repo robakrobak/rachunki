@@ -6,16 +6,16 @@ def payments_database():
     cursor = conn.cursor()
 
     cursor.execute("""CREATE TABLE IF NOT EXISTS payments(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        okres_rozliczeniowy VARCHAR,
-        todays_date VARCHAR,
-        gora_do_zaplaty INTEGER,
-        gora_oplacona BOOLEAN,
-        gabinet_do_zaplaty INTEGER,
-        gabinet_oplacony BOOLEAN,
-        dol_do_zaplaty INTEGER,
-        dol_oplacony BOOLEAN,
-        FOREIGN KEY (okres_rozliczeniowy) REFERENCES water_invoice(okres_rozliczeniowy))
+        ID INTEGER PRIMARY KEY AUTOINCREMENT,
+        DATA_WPISU DATE,
+        ROK INTEGER,
+        OKRES VARCHAR,
+        GÓRA INTEGER,
+        GÓRA_OPŁACONO BOOLEAN,
+        GABINET INTEGER,
+        GAB_OPŁACONO BOOLEAN,
+        DÓŁ INTEGER,
+        DÓŁ_OPŁACONO BOOLEAN)
         """)
 
 
@@ -24,16 +24,17 @@ def water_database():
     cursor = conn.cursor()
 
     cursor.execute("""CREATE TABLE IF NOT EXISTS water(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        okres_rozliczeniowy TEXT,
-        todays_date DATE,
-        dom_woda_licznik INTEGER,
-        gora_woda_licznik INTEGER,
-        gabinet_woda_licznik INTEGER,
-        dom_woda_zuzycie INTEGER,
-        gora_woda_zuzycie INTEGER,
-        gabinet_woda_zuzycie INTEGER,
-        dol_woda_zuzycie INTEGER)
+        ID INTEGER PRIMARY KEY AUTOINCREMENT,
+        DATA_ODCZYTU DATE,
+        ROK INTEGER,
+        OKRES VARCHAR,
+        DOM_LICZNIK INTEGER,
+        GÓRA_LICZNIK INTEGER,
+        GABINET_LICZNIK INTEGER,
+        DOM_ZUŻYCIE INTEGER,
+        GÓRA_ZUŻYCIE INTEGER,
+        GABINET_ZUŻYCIE INTEGER,
+        DÓŁ_ZUŻYCIE INTEGER)
         """)
 
 
@@ -41,19 +42,20 @@ def water_invoice_database():
     conn = sqlite3.connect("water.db")
     cursor = conn.cursor()
     cursor.execute("""CREATE TABLE IF NOT EXISTS water_invoice(
-        id INTEGER PRIMARY KEY AUTOINCREMENT, 
-        okres_rozliczeniowy VARCHAR,
-        dzien_dzisiejszy DATE,
-        data_otrzymania_faktury DATE, 
-        woda_zuzycie_m3 INTEGER,
-        woda_koszt_za_1m3 FLOAT,
-        woda_ilosc_abonamentow INTEGER,
-        woda_koszt_1_abonament FLOAT,
-        scieki_zuzycie_m3 INTEGER,
-        scieki_koszt_za_1m3 FLOAT,
-        scieki_ilosc_abonamentow INTEGER,
-        scieki_koszt_1_abonament FLOAT,
-        do_zaplaty FLOAT,
-        oplacona BOOLEAN
+        ID INTEGER PRIMARY KEY AUTOINCREMENT,
+        DATA_WPISU DATE,
+        ROK INTEGER, 
+        OKRES VARCHAR,
+        DATA_FAKTURA DATE, 
+        WODA_ZUŻYCIE INTEGER,
+        WODA_KOSZT_1M3 FLOAT,
+        ILOŚĆ_ABONAM_W INTEGER,
+        WODA_KOSZT_1xABON FLOAT,
+        ŚCIEKI_ZUŻYCIE INTEGER,
+        ŚCIEKI_KOSZT_1M3 FLOAT,
+        ILOŚĆ_ABONAM_S INTEGER,
+        ŚCIEKI_KOSZT_1xABON FLOAT,
+        DO_ZAPŁATY FLOAT,
+        OPŁACONA BOOLEAN
         )
         """)
