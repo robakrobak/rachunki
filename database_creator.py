@@ -31,10 +31,10 @@ def water_database():
         DOM_LICZNIK INTEGER,
         GÓRA_LICZNIK INTEGER,
         GABINET_LICZNIK INTEGER,
-        DOM_ZUŻYCIE INTEGER,
         GÓRA_ZUŻYCIE INTEGER,
         GABINET_ZUŻYCIE INTEGER,
-        DÓŁ_ZUŻYCIE INTEGER)
+        DÓŁ_ZUŻYCIE INTEGER,
+        DOM_ZUŻYCIE INTEGER)
         """)
 
 
