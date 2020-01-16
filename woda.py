@@ -1,6 +1,7 @@
 import tkinter as tk
 from choice_panel import *
 from tkinter import StringVar, Button
+from tkinter.ttk import Combobox
 from window import *
 import sqlite3
 
@@ -228,7 +229,13 @@ class Woda:
         self.rok.config(font=("Courier", 8))
         self.rok.grid(row=5, column=2, padx=4, sticky='WE')
 
-        self.miesiace = tk.Entry(self.frame2, width=5)
+        choices = ['Grudzień/Styczeń', 'Luty/Marzec', 'Kwiecień/Maj', 'Czerwiec/Lipiec', 'Sierpień/Wrzesień',
+                   'Październik/Listopad']
+        # variable = StringVar(self.root)
+        #
+        # variable.set('Grudzień/Styczeń')
+        self.miesiace = Combobox(self.frame2, width=5, values=choices)
+        self.miesiace.current(0)
         self.miesiace.config(font=("Courier", 8))
         self.miesiace.grid(row=5, column=3, padx=4, sticky='WE')
 
@@ -279,12 +286,12 @@ class Woda:
         count = self.cursor.fetchone()
         if count[0] == 0:
             names.append(self.gora.get())
-            self.gora.destroy()
+            # self.gora.destroy()
             names.append(self.gabinet.get())
-            self.gabinet.destroy()
+            # self.gabinet.destroy()
             names.append(self.dol.get())
             self.dol.destroy()
-            names.append(self.dom.get())
+            # names.append(self.dom.get())
             self.dom.destroy()
 
         self.water_db_insert_values(names)
@@ -302,9 +309,10 @@ class Woda:
             # gabinet zuzycie
             names.append(int(names[5]) - self.last_row_water[6])
             # doł zuzycie
-            names.append((int(names[6]) + int(names[7])) - self.last_row_water[9])
+            names.append((int(names[3]) - self.last_row_water[4]) - (
+                    (int(names[4]) - self.last_row_water[5]) + (int(names[5]) - self.last_row_water[6])))
             # dom_zuzycie
-            names.append(int(names[3])-self.last_row_water[4])
+            names.append(int(names[3]) - self.last_row_water[4])
 
         data_tuple = tuple(names)
 
@@ -344,73 +352,31 @@ class Woda:
                 except sqlite3.Error as error:
                     print("Failed to read data from sqlite table", error)
 
-    def get_all_media_meter_ArCHIUM(self):
-        list = ['id', 'okres rozliczeniowy', 'dzien dzisiejszy', 'woda licznik dom', 'woda licznik gora',
-                'woda licznik gabinet', 'woda zuzycie caly dom', 'woda zuzycie gora', 'woda zuzycie gabinet',
-                'woda zuzycie dol']
-
-        sqlite_count_query = """SELECT COUNT(*) FROM water"""
-        self.cursor.execute(sqlite_count_query)
-        count = self.cursor.fetchone()
-        for e in count:
-            if e > 0:
-                try:
-                    sqlite_select_query = """SELECT * FROM water"""
-                    self.cursor.execute(sqlite_select_query)
-                    records = self.cursor.fetchall()
-                    n = 0
-                    for row in records:
-                        print(f'ZUŻYCIE: ')
-                        for e in row:
-                            print(f'{list[n]}: {e}')
-                            n += 1
-                        n = 0
-                        input('Wciśnij enter by kontynuować.')
-                        print('\n' * 50)
-                except sqlite3.Error as error:
-                    print("Failed to read data from sqlite table", error)
-            else:
-                input('Nie ma jeszcze wpisów w "stany liczników\n'
-                      'Wciśnij enter')
-
-    # def water_meter_values(self):
-    #     # pobieram dane z poprzednich faktur, by obliczyć faktyczne zużycie mediów
-    #     self.get_data_from_queries_last_water()
-    #     # NADAJĘ ZMIENNE BY WPISAĆ DO BAZY DANYCH
-    #     # okres_rozliczeniowy = MediaMeter.okres_rozliczeniowy(self)
-    #     # dzień dzisiejszy
-    #     # dzien_dzisiejszy = self.todays_date
-    #     # DOM WODA LICZNIK
-    #     dom_woda_licznik = int(input('Wpisz stan licznika DOM: '))
-    #     # GORA WODA LICZNIK
-    #     gora_woda_licznik = int(input('Wpisz stan licznika GÓRA: '))
-    #     # GABINET WODA LICZNIK
-    #     gabinet_woda_licznik = int(input('Wpisz stan licznika GABINET: '))
-    #     # DOM_WODA_ZUZYCIE
+    # def get_all_media_meter_ArCHIUM(self):
+    #     list = ['id', 'okres rozliczeniowy', 'dzien dzisiejszy', 'woda licznik dom', 'woda licznik gora',
+    #             'woda licznik gabinet', 'woda zuzycie caly dom', 'woda zuzycie gora', 'woda zuzycie gabinet',
+    #             'woda zuzycie dol']
     #
-    #     try:
-    #         ab = self.last_row_water[3]
-    #         print('ab', ab)
-    #         print('dom woda licznik', dom_woda_licznik)
-    #         dom_woda_zuzycie = dom_woda_licznik - ab
-    #         # GORA_WODA_ZUZYCIE
-    #         bb = self.last_row_water[4]
-    #         gora_woda_zuzycie = gora_woda_licznik - bb
-    #         # GABINET WODA ZUZYCIE
-    #         cb = self.last_row_water[5]
-    #         gabinet_woda_zuzycie = gabinet_woda_licznik - cb
-    #         # DÓŁ WODA ZUZYCIE
-    #         dol_woda_zuzycie = dom_woda_zuzycie - (gora_woda_zuzycie + gabinet_woda_zuzycie)
-    #     except AttributeError as error:
-    #         dom_woda_zuzycie = input('Podaj zużycie wody dla całego domu.')
-    #         gora_woda_zuzycie = input('Podaj zużycie wody dla gory.')
-    #         gabinet_woda_zuzycie = input('Podaj zużycie wody dla gabinetu.')
-    #         dol_woda_zuzycie = input('Podaj zużycie wody dla dołu - Mikołaj.')
-    #
-    #     check = str(input('Czy dane zostały wprowadzone poprawnie? T/N: '))
-    #     if check == 'T' or check == 't':
-    #         MediaMeter.water_db_insert_values(self, okres_rozliczeniowy, dzien_dzisiejszy, dom_woda_licznik,
-    #                                           gora_woda_licznik, gabinet_woda_licznik, dom_woda_zuzycie,
-    #                                           gora_woda_zuzycie, gabinet_woda_zuzycie, dol_woda_zuzycie)
-    #     elif check == 'N' or check == 'n':
-    #         MediaMeter.water_meter_values()
+    #     sqlite_count_query = """SELECT COUNT(*) FROM water"""
+    #     self.cursor.execute(sqlite_count_query)
+    #     count = self.cursor.fetchone()
+    #     for e in count:
+    #         if e > 0:
+    #             try:
+    #                 sqlite_select_query = """SELECT * FROM water"""
+    #                 self.cursor.execute(sqlite_select_query)
+    #                 records = self.cursor.fetchall()
+    #                 n = 0
+    #                 for row in records:
+    #                     print(f'ZUŻYCIE: ')
+    #                     for e in row:
+    #                         print(f'{list[n]}: {e}')
+    #                         n += 1
+    #                     n = 0
+    #                     input('Wciśnij enter by kontynuować.')
+    #                     print('\n' * 50)
+    #             except sqlite3.Error as error:
+    #                 print("Failed to read data from sqlite table", error)
+    #         else:
+    #             input('Nie ma jeszcze wpisów w "stany liczników\n'
+    #                   'Wciśnij enter')

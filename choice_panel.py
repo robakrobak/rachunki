@@ -44,18 +44,18 @@ class ChoicePanel:
                                  'gaz')]).grid(row=1, column=2, pady=10, padx=5)
 
     def woda_main_button(self):
-        self.button_WODA = tk.Button(self.frame, text='WODAa', width=15, highlightbackground='powderblue',
+        self.button_WODA = tk.Button(self.frame, text='WODA', width=15, highlightbackground='powderblue',
                                      highlightthickness=2,
                                      command=lambda: [self.close_all_buttons(), self.media_button()]).grid(row=0, column=1)
 
     def prad_main_button(self):
-        self.button_PRAD = tk.Button(self.frame, text='PRADa', width=15, highlightbackground='mistyrose',
+        self.button_PRAD = tk.Button(self.frame, text='PRAD', width=15, highlightbackground='mistyrose',
                                      highlightthickness=2,
                                      command=lambda: [self.close_all_buttons(), self.media_button(),
                                                       self.stan_licznikow_rozliczenia('prad')]).grid(row=0, column=1)
 
     def gaz_main_button(self):
-        self.button_GAZ = tk.Button(self.frame, text='GAZa', width=15, highlightbackground='lemonchiffon',
+        self.button_GAZ = tk.Button(self.frame, text='GAZ', width=15, highlightbackground='lemonchiffon',
                                     highlightthickness=2,
                                     command=lambda: [self.close_all_buttons(), self.media_button(),
                                                      self.stan_licznikow_rozliczenia('gaz')]).grid(row=0, column=1)
