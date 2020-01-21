@@ -4,30 +4,44 @@ from tkinter import StringVar, Button
 from tkinter.ttk import Combobox
 from window import *
 import sqlite3
+from woda_faktury import *
+import woda_faktury, woda_rozliczenia
 
 
 class Woda:
     def __init__(self, root, frame):
-        self.list_of_input = []
-
-        self.frame = frame
-        self.root = root
         self.frame2 = tk.Frame(root, width=900, height=600)
         self.frame2.grid(row='1', column='0', sticky="nw", pady=40)
 
         self.stan_licznikow = tk.Button(frame, text="STAN LICZNIKOWw", width=15, highlightbackground='powderblue',
-                                        highlightthickness=2, command=lambda: self.create_water_database_menu()).grid(
-            row=1,
-            column=0,
-            pady=10)
+                                        highlightthickness=2, command=lambda: [self.close_all_buttons_frame2(),
+                                                                               self.create_water_database_menu(), self.button_pressed(self.stan_licznikow)])
+        self.stan_licznikow.grid(row=1, column=0, pady=10)
+
         self.faktury = tk.Button(frame, text="FAKTURYw", width=15, highlightbackground='powderblue',
-                                 highlightthickness=2).grid(row=1, column=1)
+                                 highlightthickness=2,
+                                 command=lambda: [self.close_all_buttons_frame2(),
+                                                  self.faktury_rozliczenia('faktury')])
+        self.faktury.grid(row=1, column=1, pady=10)
+
         self.rozliczenia = tk.Button(frame, text="ROZLICZENIAw", width=15, highlightbackground='powderblue',
-                                     highlightthickness=2).grid(row=1, column=2)
+                                     highlightthickness=2,
+                                     command=lambda: [self.close_all_buttons_frame2(),
+                                                      self.faktury_rozliczenia('rozliczenia')])
+
+        self.rozliczenia.grid(row=1, column=2, pady=10)
 
         # obsługa bazy danych
         self.conn = sqlite3.connect("water.db")
         self.cursor = self.conn.cursor()
+
+    def button_pressed(self, button):
+        button.configure(bg='lightblue')
+        # defaultbg = root.cget('bg')
+
+    def close_all_buttons_frame2(self):
+        for widget in self.frame2.winfo_children():
+            widget.destroy()
 
     def fetchone(self):
         sqlite_count_query = """SELECT COUNT(*) FROM water"""
@@ -336,6 +350,12 @@ class Woda:
 
                 except sqlite3.Error as error:
                     print("Failed to read data from sqlite table", error)
+
+    def faktury_rozliczenia(self, media_type):
+        if media_type == 'faktury':
+            woda_faktury.WodaFaktury(self.frame2)
+        elif media_type == 'rozliczenia':
+            woda_rozliczenia.WodaRozliczenia(self.frame2)
 
     # def modify(self):
     #     info = modify_button.grid_info()
