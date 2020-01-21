@@ -7,7 +7,6 @@ def payments_database():
 
     cursor.execute("""CREATE TABLE IF NOT EXISTS payments(
         ID INTEGER PRIMARY KEY AUTOINCREMENT,
-        DATA_WPISU DATE,
         ROK INTEGER,
         OKRES VARCHAR,
         GÓRA INTEGER,
@@ -43,7 +42,6 @@ def water_invoice_database():
     cursor = conn.cursor()
     cursor.execute("""CREATE TABLE IF NOT EXISTS water_invoice(
         ID INTEGER PRIMARY KEY AUTOINCREMENT,
-        DATA_WPISU DATE,
         ROK INTEGER, 
         OKRES VARCHAR,
         DATA_FAKTURA DATE, 
